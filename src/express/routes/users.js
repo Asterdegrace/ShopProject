@@ -3,12 +3,13 @@ const router = express.Router();
 const userController = require('../../db/functions/user');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
-const User = require('../../db/models/user'); // Подключите вашу модель пользователя
-const { jwtSecret, jwtExpiration } = require('../../../../Xui/config'); // Подключите конфигурацию
+const User = require('../../db/models/user'); 
+const { jwtSecret, jwtExpiration } = require('../../../../Xui/config'); 
 const {CartItem} = require('../../db/models/cart');
 const Item = require('../../db/models/item');
 const Order = require('../../db/models/order');
-// Логин пользователя
+
+// Login
 router.post('/login', async (req, res) => {
     const { email, password } = req.body;
     try {
@@ -17,24 +18,24 @@ router.post('/login', async (req, res) => {
             return res.status(401).json({ error: 'Invalid Email or password' });
         }
 
-        // Проверка пароля
+        // Checking password
         const match = await bcrypt.compare(password, user.password);
         if (!match) {
             return res.status(401).json({ error: 'Invalid Email or password' });
         }
 
-        // Генерация JWT
+        // Generation of JWT
         const token = jwt.sign({ id: user._id, username: user.email}, jwtSecret, {
             expiresIn: jwtExpiration,
         });
 
-        res.json({ token }); // Возвращаем токен
+        res.json({ token }); // token
     } catch (error) {
         res.status(500).json({ error: 'Error logging in' });
     }
 });
 
-// Регистрация пользователя
+// User Registration
 router.post('/register', async (req, res) => {
     const { name, surname, email, password } = req.body;
     try {
@@ -48,6 +49,7 @@ router.post('/register', async (req, res) => {
     }
 });
 
+//Items List for User
 router.post('/useritems', async (req, res) => {
     try {
         const { name, size, amount } = req.body;
@@ -103,7 +105,7 @@ router.post('/useritems', async (req, res) => {
 
 
 
-// Страница корзины
+// Cart
 router.get('/cart', async (req, res) => {
     try {
         const bearer = req.headers['authorization'];
@@ -141,7 +143,7 @@ router.get('/cart', async (req, res) => {
     }
 });
 
-// Удаление айтема из корзины
+// Deleting Item from Cart
 router.delete('/cartDelete',  async (req, res) => {
     try {
 
@@ -196,11 +198,11 @@ router.delete('/cartDelete',  async (req, res) => {
 });
 
 
-// Просмотр всех заказов пользователя
+// All User's Orders
 router.get('/:userId/orders',  async (req, res) => {
     try {
-        const orders = await orderController.getOrdersByUserId(req.params.userId); // Предполагается, что orderController определен
-        res.json(orders); // Возвращаем список заказов
+        const orders = await orderController.getOrdersByUserId(req.params.userId); 
+        res.json(orders); 
     } catch (error) {
         res.status(500).json({ error: 'Error fetching orders' });
     }
@@ -246,7 +248,7 @@ router.get('/placeOrder', async (req, res) => {
     }
 })
 
-// Подробная информация о заказе
+// Order Info
 router.get('/orders',  async (req, res) => {
     try {
         const bearer = req.headers['authorization'];

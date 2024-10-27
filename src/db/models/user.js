@@ -32,6 +32,8 @@ const userSchema = new mongoose.Schema({
     orders:[{ type: mongoose.Schema.Types.ObjectId, ref: 'Order' }],
 });
 
+//These methods are not used because of changed architecture
+
 /*userSchema.methods.addToCart = async function (itemId, size, quantity){
     const item = await mongoose.model('Item').findById(itemId);
     if (!item) {

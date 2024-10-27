@@ -7,14 +7,13 @@
 </head>
 <body>
     <script>
-        // Добавить новый айтем
+        // Add Item
         function addItem() {
             const name = document.getElementById('item-name').value;
             const colors = document.getElementById('item-colors').value.split(',').map(color => color.trim()); // Преобразуем строку в массив цветов
             const category = document.getElementById('item-category').value;
             const cost = document.getElementById('item-cost').value;
 
-            // Получаем размеры из полей
             const sizes = {
                 XS: document.getElementById('sizeXS').value || 0,
                 S: document.getElementById('sizeS').value || 0,
@@ -23,7 +22,7 @@
                 XL: document.getElementById('sizeXL').value || 0
             };
 
-            // Выполнить запрос на добавление нового айтема
+            // Fetch new Item
             fetch('/api/items/item', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
@@ -34,7 +33,7 @@
         }
     </script>
 
-    <!-- Добавить айтем -->
+    <!-- Add Item -->
     <div id="add-item" class="input-box">
         <h3>Add New Item</h3>
 

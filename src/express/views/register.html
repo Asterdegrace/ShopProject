@@ -8,14 +8,14 @@
 </head>
 <body>
     <script>
-        // Добавить новый Usr
+        // Add new Usr
         function createUser() {
             const name = document.getElementById('user-name').value;
             const surname = document.getElementById('user-surname').value;
             const email = document.getElementById('user-email').value; 
             const password = document.getElementById('user-password').value;
 
-            // Выполнить запрос на добавление нового Usr
+            // Fetch New Usr Usr
             fetch('/api/users/register', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
@@ -27,7 +27,7 @@
         }
     </script>
 
-    <!-- Добавить Usr -->
+    <!-- Add Usr -->
     <div id="add-user" class="input-box">
         <h3>Add New User</h3>
 

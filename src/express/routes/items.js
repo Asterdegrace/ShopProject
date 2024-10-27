@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const Item = require('../../db/models/item'); // Adjust the path as necessary
+const Item = require('../../db/models/item'); 
 
 // Get all items
 router.get('/items', async (req, res) => {
@@ -14,7 +14,7 @@ router.get('/items', async (req, res) => {
 });
 
 // Get an item by ID
-router.get('/items/:id', async (req, res) => {
+/*router.get('/items/:id', async (req, res) => {
     try {
         const item = await Item.findById(req.params.id); // Fetch item by ID
         if (!item) {
@@ -25,9 +25,9 @@ router.get('/items/:id', async (req, res) => {
         console.error('Error fetching item:', error);
         res.status(500).json({ error: 'Internal server error' });
     }
-});
+});*/
 
-// Create a new item /api/item
+// Create a new item 
 router.post('/item', async (req, res) => {
     try {
         const newItem = new Item(req.body);
@@ -57,7 +57,7 @@ router.put('/item', async (req, res) => {
 });
 
 // Delete an item by name /api/items/:itemName
-router.delete('/:itemName', async (req, res) => {
+/*router.delete('/:itemName', async (req, res) => {
     try {
     
         const deletedItem = await Item.findOneAndDelete(req.params.itemName);
@@ -71,7 +71,7 @@ router.delete('/:itemName', async (req, res) => {
         console.error('Error deleting item:', error);
         res.status(500).json({ error: 'Internal server error' });
     }
-});
+});*/
 
 
 // Export the router

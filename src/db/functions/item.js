@@ -1,6 +1,8 @@
 const Item = require('../models/item');
 
-// Получить все айтемы
+//These functions are not used because of changed architecture
+
+// Get all Items
 exports.getAllItems = async () => {
     try {
         const items = await Item.find();
@@ -11,7 +13,7 @@ exports.getAllItems = async () => {
     }
 };
 
-// Получить айтем по ID
+// Get item by ID
 exports.getItemById = async (id) => {
     try {
         const item = await Item.findByID(id);
@@ -25,7 +27,7 @@ exports.getItemById = async (id) => {
     }
 };
 
-// Создать новый айтем
+// Add new Item
 exports.createItem = async (itemData) => {
     try {
         const newItem = new Item(itemData);
@@ -37,7 +39,7 @@ exports.createItem = async (itemData) => {
     }
 };
 
-// Обновить айтем
+// Update Item
 exports.updateItem = async (id, itemData) => {
     try {
         const updatedItem = await Item.findByIdAndUpdate(id, itemData, { new: true });
@@ -51,7 +53,7 @@ exports.updateItem = async (id, itemData) => {
     }
 };
 
-// Удалить айтем
+// Delete Item
 exports.deleteItem = async (id) => {
     try {
         const deletedItem = await Item.findByIdAndDelete(id);

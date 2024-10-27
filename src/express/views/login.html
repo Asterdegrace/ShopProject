@@ -13,7 +13,7 @@
             const email = document.getElementById('user-email').value; 
             const password = document.getElementById('user-password').value;
 
-            // Выполнить запрос на добавление нового Usr
+            // fetch new Usr
             fetch('/api/users/login', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },

@@ -1,7 +1,9 @@
 const User = require('../models/user');
 const bcrypt = require('bcrypt');
 
-// Получить всех пользователей
+//These functions are not used because of changed architecture
+
+// Get all Users
 exports.getAllUsers = async () => {
     try {
         const users = await User.find();
@@ -12,7 +14,7 @@ exports.getAllUsers = async () => {
     }
 };
 
-// Получить пользователя по ID (или username)
+// Get user by Id
 exports.getUserById = async (id) => {
     try {
         const user = await User.findById(id);
@@ -26,11 +28,11 @@ exports.getUserById = async (id) => {
     }
 };
 
-/* Создать нового пользователя с хэшированным паролем
+/*
 exports.createUser = async (userData) => {
     try {
-        // Хэшируем пароль перед созданием пользователя
-        const hashedPassword = await bcrypt.hash(userData.password, 10); // 10 - количество раундов шифрования
+        // HAshing
+        const hashedPassword = await bcrypt.hash(userData.password, 10);
         userData.password = hashedPassword;
 
         const newUser = new User(userData);
@@ -42,10 +44,10 @@ exports.createUser = async (userData) => {
     }
 };*/
 
-// Обновить пользователя с хэшированием пароля, если он изменяется
+// Update User
 exports.updateUser = async (id, userData) => {
     try {
-        // Проверяем, если передан пароль, хэшируем его
+        
         if (userData.password) {
             const hashedPassword = await bcrypt.hash(userData.password, 10);
             userData.password = hashedPassword;
@@ -62,7 +64,7 @@ exports.updateUser = async (id, userData) => {
     }
 };
 
-// Удалить пользователя
+// Delete User
 exports.deleteUser = async (id) => {
     try {
         const deletedUser = await User.findByIdAndDelete(id);
@@ -76,7 +78,7 @@ exports.deleteUser = async (id) => {
     }
 };
 
-// Добавить айтем в корзину пользователя
+// Add Item
 exports.addItemToCart = async (userId, itemId, size, amount) => {
     try {
         const user = await User.findById(userId);
@@ -91,7 +93,7 @@ exports.addItemToCart = async (userId, itemId, size, amount) => {
     }
 };
 
-// Удалить айтем из корзины пользователя
+// Delete Item from cart
 exports.removeItemFromCart = async (userId, itemId, size, amount) => {
     try {
         const user = await User.findById(userId);
@@ -106,7 +108,7 @@ exports.removeItemFromCart = async (userId, itemId, size, amount) => {
     }
 };
 
-// Создать заказ для пользователя
+// Create order
 exports.createOrderForUser = async (userId) => {
     try {
         const user = await User.findById(userId);
