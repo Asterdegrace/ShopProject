@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Item</title>
+</head>
+<body>
+    <script>
+        // Удлц айтем
+        function deleteItem() {
+            const name = document.getElementById('item-name').value;
+
+
+            // Выполнить запрос на добавление нового айтем
+            fetch(`/api/items/${name}`, {
+                method: 'DELETE',
+                headers: { 'Content-Type': 'application/json' },
+            }).then(res => res.json()).then(data => {
+                alert('Item killed successfully!');
+            }).catch(err => alert('Error killing item'));
+        }
+    </script>
+
+    <!-- Удлц айтем -->
+    <div id="add-item" class="input-box">
+        <h3>Add New Item</h3>
+
+        <!-- Name -->
+        <label for="item-name">Item Name:</label>
+        <input type="text" id="item-name" name="name" required>
+
+        <!-- Submit Button -->
+        <button type="button" class="btn" onclick="deleteItem()">Gamarjoba</button>
+    </div>
+</body>
+</html>

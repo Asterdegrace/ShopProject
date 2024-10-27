@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Item</title>
+</head>
+<body>
+    <script>
+        // Update an existing item
+        function editItem() {
+            const itemId = document.getElementById('item-id').value;
+            const itemName = document.getElementById('item-name').value;
+            const colors = document.getElementById('item-colors').value.split(',').map(color => color.trim());
+            const category = document.getElementById('item-category').value;
+            const cost = document.getElementById('item-cost').value;
+
+            const sizes = {
+                XS: document.getElementById('sizeXS').value || 0,
+                S: document.getElementById('sizeS').value || 0,
+                M: document.getElementById('sizeM').value || 0,
+                L: document.getElementById('sizeL').value || 0,
+                XL: document.getElementById('sizeXL').value || 0
+            };
+
+            fetch(`/api/items/item`, {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({itemName , toChange: {colors, category, cost, sizes} })
+            }).then(res => res.json()).then(data => {
+                alert('Item updated successfully!');
+            }).catch(err => alert('Error updating item'));
+        }
+    </script>
+
+    <!-- Edit Item Form -->
+    <div id="edit-item" class="input-box">
+        <h3>Edit Item</h3>
+        
+        <input type="hidden" id="item-id" value="ITEM_ID_HERE"> <!-- Replace with actual item ID -->
+        
+        <label for="item-name">Item Name:</label>
+        <input type="text" id="item-name" name="name" required>
+
+        <label for="item-colors">Colors (comma separated):</label>
+        <input type="text" id="item-colors" name="colors">
+
+        <label for="item-category">Category:</label>
+        <input type="text" id="item-category" name="category" required>
+
+        <label for="item-cost">Item Cost:</label>
+        <input type="text" id="item-cost" name="cost" required>
+
+        <h3>Sizes and Quantities</h3>
+
+        <label for="sizeXS">XS:</label>
+        <input type="number" id="sizeXS" name="sizes[XS]" min="0">
+
+        <label for="sizeS">S:</label>
+        <input type="number" id="sizeS" name="sizes[S]" min="0">
+
+        <label for="sizeM">M:</label>
+        <input type="number" id="sizeM" name="sizes[M]" min="0">
+
+        <label for="sizeL">L:</label>
+        <input type="number" id="sizeL" name="sizes[L]" min="0">
+
+        <label for="sizeXL">XL:</label>
+        <input type="number" id="sizeXL" name="sizes[XL]" min="0">
+
+        <button type="button" class="btn" onclick="editItem()">Update Item</button>
+    </div>
+</body>
+</html>

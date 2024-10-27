@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Orders</title>
+</head>
+<body>
+    <div id="all-orders" class="input-box">
+        <h3>Orders</h3>
+        <ul id="orders-list" style="display: flex; flex-direction: column;"></ul>
+    <script>
+
+        // Function to fetch and display all items
+        function viewOrders() {
+            const token =localStorage.getItem('authToken');
+            fetch('/api/users/orders', {
+                    method: 'GET',
+                    headers: { 
+                        'Content-Type': 'application/json',
+                        'authorization': `Bearer ${token}` 
+                    },
+                }).then(res => {
+                    if (!res.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+                    return res.json();
+                })
+                .then(data => {
+                    console.log(data);
+                    const ordersList = document.getElementById('orders-list');
+                    ordersList.innerHTML = ''; // Clear the existing list
+                    data.forEach(order => {
+                        const a = document.createElement('a');
+                        a.textContent = `${order._id} - Date: ${JSON.stringify(order.orderDate)}`;
+                        ordersList.appendChild(a);
+                    });
+                })
+                .catch(err => {
+                    console.error('Error fetching items:', err);
+                    alert('Failed to fetch items. Please try again later.');
+                });
+        }
+
+
+
+        document.addEventListener('DOMContentLoaded', viewOrders);
+    
+    </script>
+</body>
+</html>

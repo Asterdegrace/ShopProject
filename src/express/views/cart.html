@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Cart</title>
+</head>
+<body>
+    <!-- Cart -->
+    <div id="cart" class="input-box">
+        <h3>Cart</h3>
+    </div>
+
+    <div id="delete-item-cart" class="input-box">
+        <h3>Item to delete</h3>
+        <!-- Name -->
+        <label for="item-cart-name">Name:</label>
+        <input type="text" id="item-cart-name" name="name" required>
+        
+        <!-- Size -->
+        <label for="item-cart-size">Item size:</label>
+        <input type="text" id="item-cart-size" name="size" required>
+
+        <!-- Submit Button -->
+        <button type="button" class="btn" onclick="DeleteCart()">Delete Item</button>
+
+    <ul id="items-list" style="display: flex; flex-direction: column;"></ul>
+
+    <!-- Show Cart Section -->
+    <div id="view-items">
+        <h3>View All Items in the Cart</h3>
+        <button class="btn" onclick="viewCartItems()">Fetch Items</button>
+        <ul id="cart-list"></ul>
+    </div>
+    
+    <!-- Place Order Button -->
+    <button type="button" class="btn" onclick="PlaceOrder()">Place Order</button>
+
+    <script>
+        // Function to fetch and display all items in the cart
+        function viewCartItems() {
+            const token =localStorage.getItem('authToken');
+            fetch('/api/users/cart', {
+                    method: 'GET',
+                    headers: { 
+                        'Content-Type': 'application/json',
+                        'authorization': `Bearer ${token}` 
+                    },
+                }).then(res => {
+                    if (!res.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+                    return res.json();
+                }).then(data => {
+                    console.log(data);
+                    const itemList = document.getElementById('cart-list');
+                    itemList.innerHTML = ''; // Clear the existing list
+                    data.forEach(item => {
+                        const li = document.createElement('li');
+                        li.textContent = `${item.name} - Size: ${JSON.stringify(item.size)} - Amount: ${item.amount}`;
+                        itemList.appendChild(li);
+                    });
+                })
+                .catch(err => {
+                    console.error('Error fetching items:', err);
+                    alert('Failed to fetch items. Please try again later.');
+                });
+            /*fetch('/api/items/cart')
+                .then(res => {
+                    if (!res.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+                    return res.json();
+                })
+                .then(data => {
+                    console.log(data);
+                    const itemsList = document.getElementById('cart');
+                    itemsList.innerHTML = ''; // Clear the existing list
+                    data.forEach(item => {
+                        const li = document.createElement('li');
+                        li.textContent = `${AAAAAA} - Size: ${JSON.stringify(item.sizes)} - Amount: $${item.amount}`;
+                        itemsList.appendChild(li);
+                    });
+                })
+                .catch(err => {
+                    console.error('Error fetching items:', err);
+                    alert('Failed to fetch items. Please try again later.');
+                });*/
+        }
+
+        function DeleteCart() {
+            const name = document.getElementById('item-cart-name').value;
+            const size = document.getElementById('item-cart-size').value;
+
+            const token = localStorage.getItem('authToken');
+
+            fetch(`/api/users/cartDelete?name=${name}&size=${size}`, {
+                    method: 'DELETE',
+                    headers: { 
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}` 
+                    },
+                }).then(res => {
+                    if (!res.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+                });
+                    return res.json().then(res => res.json()).then(data => {
+                    alert('Item deleted successfully!');
+                }).catch(err => alert('Error deleting item'));
+        }
+
+        function PlaceOrder(){
+            
+            const token = localStorage.getItem('authToken');
+
+            fetch(`/api/users/placeOrder`, {
+                    method: 'Get',
+                    headers: { 
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}` 
+                    },
+                }).then(res => {
+                    if (!res.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+                });
+                    return res.json().then(res => res.json()).then(data => {
+                    alert('Item deleted successfully!');
+                }).catch(err => alert('Error deleting item'));
+        }
+
+        
+    </script>
+</body>
+</html>

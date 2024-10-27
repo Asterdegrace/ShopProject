@@ -1,0 +1,55 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add User</title>
+</head>
+<body>
+    <script>
+        // Добавить новый Usr
+        function createUser() {
+            const name = document.getElementById('user-name').value;
+            const surname = document.getElementById('user-surname').value;
+            const email = document.getElementById('user-email').value; 
+            const password = document.getElementById('user-password').value;
+
+            // Выполнить запрос на добавление нового Usr
+            fetch('/api/users/register', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ name, surname, email,password })
+            }).then(res => res.json()).then(data => {
+                alert('User added successfully!');
+                window.location.href = "/login";
+            }).catch(err => alert('Error adding User'));
+        }
+    </script>
+
+    <!-- Добавить Usr -->
+    <div id="add-user" class="input-box">
+        <h3>Add New User</h3>
+
+        <!-- Name -->
+        <label for="user-name">Your name:</label>
+        <input type="text" id="user-name" name="name" required>
+
+        <!-- Surname -->
+        <label for="user-surname">Your surname:</label>
+        <input type="text" id="user-surname" name="surname">
+
+        <!-- Email -->
+        <label for="user-email">Email:</label>
+        <input type="text" id="user-email" name="email" required>
+
+        <!-- Password -->
+        <label for="user-password">Password:</label>
+        <input type="password" id="user-password" name="cost" required>
+
+
+        <!-- Submit Button -->
+        <button type="button" class="btn" onclick="createUser()">Register</button>
+    </div>
+</body>
+</html>

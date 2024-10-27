@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>User Account</title>
+    <script src="https://cdn.jsdelivr.net/npm/jwt-decode/build/jwt-decode.min.js"></script> <!-- Подключаем библиотеку для декодирования JWT -->
+</head>
+<body>
+    <script>
+        
+        const token = localStorage.getItem('authToken');
+
+        if (!token) {
+            
+            window.location.href = '/login';
+        } else {
+            
+            const decodedToken = jwt_decode(token);
+            const name = decodedToken.name; };
+            console.log(name);
+/*
+            // Если необходимо, проверка токена на сервере
+            fetch('/api/auth/verifyToken', {
+                method: 'POST',
+                headers: { 
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}` 
+                }
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Token is invalid or expired');
+                }
+            })
+            .catch(error => {
+                console.error('Token verification failed:', error);
+                // Перенаправление на страницу логина, если токен недействителен
+                window.location.href = '/login';
+            });
+        }*/
+
+        // Отображение имени пользователя на странице
+        document.addEventListener('DOMContentLoaded', () => {
+            const nameElement = document.getElementById('name');
+            nameElement.textContent = `Welcome, ${name}`;
+        });
+    </script>
+
+    <h1 id="username"></h1> <!-- Элемент для отображения имени пользователя -->
+    <a href="/userItems">View All Items</a><br>
+    <a href="/cart">Cart</a><br>
+    <a href="/orders">Orders</a>
+</body>
+</html>

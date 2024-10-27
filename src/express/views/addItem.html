@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Item</title>
+</head>
+<body>
+    <script>
+        // Добавить новый айтем
+        function addItem() {
+            const name = document.getElementById('item-name').value;
+            const colors = document.getElementById('item-colors').value.split(',').map(color => color.trim()); // Преобразуем строку в массив цветов
+            const category = document.getElementById('item-category').value;
+            const cost = document.getElementById('item-cost').value;
+
+            // Получаем размеры из полей
+            const sizes = {
+                XS: document.getElementById('sizeXS').value || 0,
+                S: document.getElementById('sizeS').value || 0,
+                M: document.getElementById('sizeM').value || 0,
+                L: document.getElementById('sizeL').value || 0,
+                XL: document.getElementById('sizeXL').value || 0
+            };
+
+            // Выполнить запрос на добавление нового айтема
+            fetch('/api/items/item', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ name, colors, category, sizes, cost })
+            }).then(res => res.json()).then(data => {
+                alert('Item added successfully!');
+            }).catch(err => alert('Error adding item'));
+        }
+    </script>
+
+    <!-- Добавить айтем -->
+    <div id="add-item" class="input-box">
+        <h3>Add New Item</h3>
+
+        <!-- Name -->
+        <label for="item-name">Item Name:</label>
+        <input type="text" id="item-name" name="name" required>
+
+        <!-- Colors -->
+        <label for="item-colors">Colors (comma separated):</label>
+        <input type="text" id="item-colors" name="colors">
+
+        <!-- Category -->
+        <label for="item-category">Category:</label>
+        <input type="text" id="item-category" name="category" required>
+
+        <!-- Cost -->
+        <label for="item-cost">Item Cost:</label>
+        <input type="text" id="item-cost" name="cost" required>
+
+        <!-- Sizes and Quantities -->
+        <h3>Sizes and Quantities</h3>
+
+        <label for="sizeXS">XS:</label>
+        <input type="number" id="sizeXS" name="sizes[XS]" min="0">
+
+        <label for="sizeS">S:</label>
+        <input type="number" id="sizeS" name="sizes[S]" min="0">
+
+        <label for="sizeM">M:</label>
+        <input type="number" id="sizeM" name="sizes[M]" min="0">
+
+        <label for="sizeL">L:</label>
+        <input type="number" id="sizeL" name="sizes[L]" min="0">
+
+        <label for="sizeXL">XL:</label>
+        <input type="number" id="sizeXL" name="sizes[XL]" min="0">
+
+        <!-- Submit Button -->
+        <button type="button" class="btn" onclick="addItem()">Add Item</button>
+    </div>
+</body>
+</html>

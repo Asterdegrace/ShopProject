@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Item Management</title>
+</head>
+<body>
+    
+    <div id="add-item-to-cart" class="input-box">
+        <h3>Add Item to Cart</h3>
+        <!-- Name -->
+        <label for="item-name">Name:</label>
+        <input type="text" id="item-name" name="name" required>
+        
+        <!-- Size -->
+        <label for="item-size">Item size:</label>
+        <input type="text" id="item-size" name="size" required>
+
+        <!-- Amount -->
+        <label for="item-amount">Amount:</label>
+        <input type="text" id="item-amount" name="amount" required>
+
+        <!-- Submit Button -->
+        <button type="button" class="btn" onclick="addItemToCart()">Add</button>
+
+    <ul id="items-list" style="display: flex; flex-direction: column;"></ul>
+
+    <script>
+        // Function to fetch and display all items
+        function viewItems() {
+            fetch('/api/items/items')
+                .then(res => {
+                    if (!res.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+                    return res.json();
+                })
+                .then(data => {
+                    console.log(data);
+                    const itemList = document.getElementById('items-list');
+                    itemList.innerHTML = ''; // Clear the existing list
+                    data.forEach(item => {
+                        const a = document.createElement('a');
+                        a.textContent = `${item.name} - Sizes: ${JSON.stringify(item.sizes)} - Cost: $${item.cost}`;
+                        itemList.appendChild(a);
+                    });
+                })
+                .catch(err => {
+                    console.error('Error fetching items:', err);
+                    alert('Failed to fetch items. Please try again later.');
+                });
+        }
+
+
+
+        document.addEventListener('DOMContentLoaded', viewItems);
+
+        function addItemToCart() {
+            const name = document.getElementById('item-name').value;
+            const amount = document.getElementById('item-amount').value;
+            const size = document.getElementById('item-size').value; 
+
+            const token = localStorage.getItem('authToken');
+
+            fetch('/api/users/useritems', {
+                    method: 'POST',
+                    headers: { 
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}` 
+                    },
+                    body: JSON.stringify({ name, size, amount })
+                }).then(res => res.json()).then(data => {
+                    alert('Item added to cart successfully!');
+                }).catch(err => alert('Error adding item to cart'));
+        }
+
+        
+
+    </script>
+</body>
+</html>

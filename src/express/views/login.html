@@ -1,0 +1,59 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login User</title>
+</head>
+<body>
+    <script>
+        // Login Usr
+        function LoginUser() {
+            const email = document.getElementById('user-email').value; 
+            const password = document.getElementById('user-password').value;
+
+            // Выполнить запрос на добавление нового Usr
+            fetch('/api/users/login', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ email,password })
+            }).then(res => res.json())
+            .then(data => {
+                if (!data.token){ 
+                    alert ('Error logging User, try to remember');
+                    return;
+                }
+                alert('User logged successfully!');
+                localStorage.setItem('authToken', data.token );
+                window.location.href = '/userMenu';
+            }).catch(err => alert('Error Entering into account'));
+        }
+
+        function redirectToReg() {
+        window.location.href = "/register";
+    }
+    </script>
+
+    <!-- Login Usr -->
+    <div id="login-user" class="input-box">
+        <h3>Logging User</h3>
+
+        <!-- Email -->
+        <label for="user-email">Email:</label>
+        <input type="text" id="user-email" name="email" required>
+
+        <!-- Password -->
+        <label for="user-password">Password:</label>
+        <input type="password" id="user-password" name="cost" required>
+
+
+        <!-- Submit Button -->
+        <button type="button" class="btn" onclick="LoginUser()">Login</button>
+
+        <!-- Registration -->
+        <button onclick="redirectToReg()">Register</button>
+
+    </div>
+</body>
+</html>
