@@ -9,7 +9,7 @@ const userSchema = new mongoose.Schema({
         trim: true,
         minlength: 2,
         maxlength: 50,
-        match: [/^[a-zA-Z]+$/, 'Name should contain only alphabetic characters']
+        match: [/^[a-zA-Z]+$/, 'Name should contain only alphabetic characters'],
     },
     surname: {
         type: String,
@@ -17,7 +17,7 @@ const userSchema = new mongoose.Schema({
         trim: true,
         minlength: 2,
         maxlength: 50,
-        match: [/^[a-zA-Z]+$/, 'Surname should contain only alphabetic characters']
+        match: [/^[a-zA-Z]+$/, 'Surname should contain only alphabetic characters'],
     },
     email: {
         type: String,
@@ -25,7 +25,8 @@ const userSchema = new mongoose.Schema({
         trim: true,
         minlength: 2,
         maxlength: 50,
-        match: [/^[\w\.-]+@[a-zA-Z\d\.-]+\.[a-zA-Z]{2,}$/, 'Surname should contain only alphabetic characters']
+        match: [/^[\w\.-]+@[a-zA-Z\d\.-]+\.[a-zA-Z]{2,}$/, 'Surname should contain only alphabetic characters'],
+        unique: true,
     },
     password: String,
     cart:[{ type: mongoose.Schema.Types.ObjectId, ref: 'CartItem' }],

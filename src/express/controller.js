@@ -78,9 +78,9 @@ app.get('/useritems', (req, res) => {
     res.sendFile(path.join(__dirname, 'views', 'userItems.html'));
 });
 
-// Middleware для проверки токена
+
 const verifyToken = (req, res, next) => {
-    const token = req.headers['authorization']?.split(' ')[1]; // Получаем токен из заголовка
+    const token = req.headers['authorization']?.split(' ')[1]; 
     console.log('Authorization Header:', req.headers['authorization']); // Log the header for debugging
     if (!token) {
         return res.status(403).json({ error: 'Token is required for authentication' });
@@ -91,7 +91,7 @@ const verifyToken = (req, res, next) => {
             console.error('Token verification failed:', err);
             return res.status(401).json({ error: 'Invalid token' });
         }
-        req.userId = decoded.id; // Сохраняем id пользователя
+        req.userId = decoded.id; 
         next();
     });
 };
