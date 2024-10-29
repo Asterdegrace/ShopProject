@@ -57,7 +57,7 @@ router.put('/item', async (req, res) => {
 });
 
 // Delete an item by name /api/items/:itemName
-/*router.delete('/:itemName', async (req, res) => {
+router.delete('/delete', async (req, res) => {
     try {
     
         const deletedItem = await Item.findOneAndDelete(req.params.itemName);
@@ -71,7 +71,7 @@ router.put('/item', async (req, res) => {
         console.error('Error deleting item:', error);
         res.status(500).json({ error: 'Internal server error' });
     }
-});*/
+});
 
 
 // Export the router

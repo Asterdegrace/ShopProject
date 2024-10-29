@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Add Item</title>
+    <title>Delete Item</title>
 </head>
 <body>
     <script>
@@ -13,7 +13,7 @@
 
 
 
-            fetch(`/api/items/${name}`, {
+            fetch(`/api/items/delete`, {
                 method: 'DELETE',
                 headers: { 'Content-Type': 'application/json' },
             }).then(res => res.json()).then(data => {
@@ -23,8 +23,8 @@
     </script>
 
     <!-- Delete Item -->
-    <div id="add-item" class="input-box">
-        <h3>Add New Item</h3>
+    <div id="delete-item" class="input-box">
+        <h3>Delete Item</h3>
 
         <!-- Name -->
         <label for="item-name">Item Name:</label>
